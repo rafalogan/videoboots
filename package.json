@@ -1,0 +1,23 @@
+{
+  "name": "videoboots",
+  "version": "1.0.0",
+  "description": "Open Source Project, to automatc make videos ( project created based on the Filipe Deschamps Channel videos )",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rafalogan/videoboots.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rafalogan/videoboots/issues"
+  },
+  "homepage": "https://github.com/rafalogan/videoboots#readme",
+  "dependencies": {
+    "readline-sync": "^1.4.9"
+  }
+}
