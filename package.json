@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/rafalogan/videoboots/issues"
   },
-  "homepage": "https://github.com/rafalogan/videoboots#readme"
+  "homepage": "https://github.com/rafalogan/videoboots#readme",
+  "dependencies": {
+    "readline-sync": "^1.4.9"
+  }
 }
