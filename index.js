@@ -4,11 +4,11 @@ const robots = {
     text: require('./robots/text')
 };
 
-async function start() {
+function start() {
     const content = {};
 
     robots.userInput(content);
-    await robots.text(content);
+    robots.text(content);
 
     console.log(content);
 }

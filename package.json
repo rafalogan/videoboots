@@ -19,7 +19,6 @@
   "homepage": "https://github.com/rafalogan/videoboots#readme",
   "dependencies": {
     "algorithmia": "^0.3.10",
-    "readline-sync": "^1.4.9",
-    "sbd": "^1.0.15"
+    "readline-sync": "^1.4.9"
   }
 }
