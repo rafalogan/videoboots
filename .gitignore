@@ -62,3 +62,6 @@ typings/
 
 #ide's
 \.idea
+
+#credentials
+\credentials
