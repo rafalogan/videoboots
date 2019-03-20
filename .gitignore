@@ -62,6 +62,9 @@ typings/
 
 #ide's
 \.idea
+<<<<<<< HEAD
 
 #credentials
 \credentials
+=======
+>>>>>>> parent of 09337d1... complete text robot
