@@ -4,7 +4,9 @@ const robots = {
 };
 
 async function start() {
-    const content = {};
+    const content = {
+        maximunSentences: 7
+    };
 
     robots.userInput(content);
     await robots.text(content);
