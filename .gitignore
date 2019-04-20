@@ -65,4 +65,10 @@ typings/
 
 #credentials
 \credentials
+
+#Content
 content.json
+\content
+
+#system
+.DS_Store

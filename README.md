@@ -25,3 +25,6 @@ File: 'watson-nlu.json'
 }
 
 ```
+
+#### Content Folder
+Folder for downloaded or gernerated content
