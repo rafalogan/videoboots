@@ -128,7 +128,7 @@ async function robot() {
                 process.stdout.write(data);
             });
 
-            aerender.on('cleose', () => {
+            aerender.on('close', () => {
                 console.log(`> ${robotName} After Effects closed`);
                 resolve()
             });
