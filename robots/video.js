@@ -4,7 +4,10 @@ const spawn = require('child_process').spawn;
 const path = require('path');
 const rootPath = path.resolve(__dirname, '..');
 
+const robotName = '[video-robot]';
+
 async function robot() {
+    console.log(`> ${robotName} Starting...`);
     const content = state.load();
 
     await convertAllImages(content);
@@ -50,7 +53,7 @@ async function robot() {
                 .write(outputFile, error => {
                     if (error) return reject(error);
 
-                    console.log(`> Image Converted: ${inputFile}`);
+                    console.log(`> ${robotName} Image Converted: ${outputFile}`);
                     resolve()
                 });
         });
@@ -85,7 +88,7 @@ async function robot() {
                 .write(outputFile, error => {
                     if (error) return reject(error);
 
-                    console.log(`> Sentence created: ${outputFile}`);
+                    console.log(`> ${robotName} Sentence created: ${outputFile}`);
                     resolve();
                 });
         });
@@ -97,7 +100,7 @@ async function robot() {
                 .write('./content/youtube-thumbnail.jpg', error => {
                     if (error) return reject(error);
 
-                    console.log('> Creating YouTube thumbnail!');
+                    console.log(`> ${robotName} YouTube thumbnail created`);
                     resolve();
                 });
         })
@@ -113,7 +116,7 @@ async function robot() {
             const templateFilePath = `${rootPath}/templates/1/template.aep`;
             const destinationFilePath = `${rootPath}/content/output.mov`;
 
-            console.log(`> Starting After Effects`);
+            console.log(`> ${robotName} Starting After Effects`);
 
             const aerender  = spawn(aerenderFilePath, [
                 '-comp', 'main',
@@ -126,7 +129,7 @@ async function robot() {
             });
 
             aerender.on('cleose', () => {
-                console.log(`> After Effects closed`);
+                console.log(`> ${robotName} After Effects closed`);
                 resolve()
             });
         })

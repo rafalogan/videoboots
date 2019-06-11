@@ -5,7 +5,10 @@ const state = require('./state');
 const customSearch = google.customsearch('v1');
 const googleSearchCredentials = require('../credentials/google-seach');
 
+const robotName = '[image-robot]';
+
 async function robot() {
+    console.log(`> ${robotName} Starting...`);
     const content = state.load();
 
     await fetchImagesOfAllSentences(content);
@@ -14,11 +17,18 @@ async function robot() {
     state.save(content);
 
     async function fetchImagesOfAllSentences(content) {
-        for (const sentence of content.sentences) {
-            const query = `${content.seachTrem} ${sentence.keywords[0]}`;
-            sentence.images  = await fetchGoogleAndReturnImagesLinks(query);
+        for (let sentenceIndex = 0; sentenceIndex < content.sentences.length; sentenceIndex++) {
+            let query;
+            if (sentenceIndex === 0 ) {
+                query = `${content.searchTerm}`;
+            } else {
+                query = `${content.searchTerm} ${content.sentences[sentenceIndex].keywords[0]}`;
+            }
 
-            sentence.googleSearchQuery = query;
+            console.log(`> ${robotName} Querying Google Images with: ${query}`);
+
+            content.sentences[sentenceIndex].images  = await fetchGoogleAndReturnImagesLinks(query);
+            content.sentences[sentenceIndex].googleSearchQuery = query;
         }
     }
 
@@ -45,15 +55,15 @@ async function robot() {
             for (let imageIndex = 0; imageIndex < images.length; imageIndex++ ) {
                 const imageUrl = images[imageIndex];
                 try {
-                    if (content.downloadIimages.includes(imageUrl)) throw new Error(`Imagem já baixada`);
+                    if (content.downloadIimages.includes(imageUrl)) throw new Error(`Image already downloaded`);
 
                     await downloadAndSave(imageUrl, `${sentenceIndex}-original.png`);
                     content.downloadIimages.push(imageUrl);
 
-                    console.log(`> [${sentenceIndex}][${imageIndex}] Baixou com sucessso: ${imageUrl}`);
+                    console.log(`> ${robotName} [${sentenceIndex}][${imageIndex}] Image successfully downloaded: ${imageUrl}`);
                     break;
                 } catch (error) {
-                    console.log(`> [${sentenceIndex}][${imageIndex}] Erro ao baixar (${imageUrl}: ${error})`)
+                    console.log(`> ${robotName} [${sentenceIndex}][${imageIndex}] Error (${imageUrl}: ${error})`)
                 }
             }
         }
