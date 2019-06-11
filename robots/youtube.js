@@ -5,7 +5,10 @@ const OAuth2 = google.auth.OAuth2;
 const state = require('./state');
 const fs = require('fs');
 
+const robotName = '[youtube-robot]';
+
 async function robot() {
+    console.log(`> ${robotName} Starting...`);
     const content = state.load();
 
     await authenticateWithOAuth();
@@ -27,7 +30,7 @@ async function robot() {
                 const app = express();
 
                 const server  = app.listen(port, () => {
-                    console.log(`> listening on http://localhost:${port}`);
+                    console.log(`> ${robotName} listening on http://localhost:${port}`);
 
                     resolve({
                         app,
@@ -55,16 +58,16 @@ async function robot() {
                 scope: ['https://www.googleapis.com/auth/youtube']
             });
 
-            console.log(`> Please give your consent: ${consentUrl}`);
+            console.log(`> ${robotName} Please give your consent: ${consentUrl}`);
         }
 
         async function waitForGoogleCallback(webServer) {
             return new Promise((resolve, reject) => {
-                console.log(`> Waiting for user consent...`);
+                console.log(`> ${robotName} Waiting for user consent...`);
 
                 webServer.app.get('/oauth2callback', (req, res) => {
                     const authCode = req.query.code;
-                    console.log(`> Consent given: ${authCode}`);
+                    console.log(`> ${robotName} Consent given: ${authCode}`);
 
                     res.send(`<h1>Tank you!</h1><p>Now close this tab.</p>`);
                     resolve(authCode);
@@ -77,7 +80,7 @@ async function robot() {
                 OAuthClient.getToken(authorizationToken, (error, tokens) => {
                     if (error) return reject(error);
 
-                    console.log(`> Access tokens received:`);
+                    console.log(`> ${robotName} Access tokens received!`);
                     console.log(tokens);
 
                     OAuthClient.setCredentials(tokens);
@@ -123,17 +126,19 @@ async function robot() {
                 body: fs.createReadStream(videoFilePath)
             }
         };
+
+        console.log(`> ${robotName} Starting to upload the video to YouTube`);
         const youtubeResponse = await youtube.videos.insert(requestParameters, {
             onUploadProgress: onUploadProgress
         });
 
-        console.log(`> Video available at: https://youtu.be/${youtubeResponse.data.id}`);
+        console.log(`> ${robotName} Video available at: https://youtu.be/${youtubeResponse.data.id}`);
         return youtubeResponse.data;
 
         function onUploadProgress(event) {
             const progress = Math.round((event.bytesRead / videoFileSize) * 100);
 
-            console.log(`> ${progress}% Completed`);
+            console.log(`> ${robotName} ${progress}% Completed`);
         }
     }
 
@@ -149,7 +154,7 @@ async function robot() {
         };
 
         const youtubeResponse = await youtube.thumbnails.set(requestParameters);
-        console.log(`> Thumbnail uploaded!`);
+        console.log(`> ${robotName} Thumbnail uploaded!`);
     }
 }
 
